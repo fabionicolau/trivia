@@ -1,3 +1,5 @@
+import { SET_USER } from '../actions/types';
+
 const initialState = {
   name: '',
   gravatarEmail: '',
@@ -7,8 +9,11 @@ const initialState = {
 
 function player(state = initialState, { type, payload }) {
   switch (type) {
-  case 'PROVISORIO':
-    return payload;
+  case SET_USER:
+    return {
+      ...state,
+      ...payload,
+    };
   default:
     return state;
   }

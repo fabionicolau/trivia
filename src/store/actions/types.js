@@ -5,3 +5,5 @@ export const GET_QUESTIONS = 'GET_QUESTIONS';
 export const ERROR = 'ERROR';
 
 export const LOADING = 'LOADING';
+
+export const SET_USER = 'SET_USER';

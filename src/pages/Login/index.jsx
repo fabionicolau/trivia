@@ -31,6 +31,11 @@ class Login extends React.Component {
     history.push('/home');
   }
 
+  handleRedirect = () => {
+    const { history } = this.props;
+    history.push('/settings');
+  }
+
   render() {
     const { email, isDisabled, name } = this.state;
     return (
@@ -58,6 +63,14 @@ class Login extends React.Component {
             onClick={ this.handleClick }
           >
             Play
+
+          </button>
+          <button
+            data-testid="btn-settings"
+            type="button"
+            onClick={ this.handleRedirect }
+          >
+            Configurações
 
           </button>
         </form>

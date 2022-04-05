@@ -1,24 +1,26 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import propTypes from 'prop-types';
-import { setToken } from '../../store/actions';
+import { action, setToken } from '../../store/actions';
+import { SET_USER } from '../../store/actions/types';
 
 class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       name: '',
-      email: '',
+      gravatarEmail: '',
       isDisabled: true,
     };
   }
 
   validations = () => {
-    const { name, email } = this.state;
+    const { name, gravatarEmail } = this.state;
     const regex = /^[\w-\\.]+@([\w-]+.)+[\w-]{2,4}$/g;
     const MIN_LENGTH = 3;
 
-    this.setState({ isDisabled: !(regex.test(email) && name.length >= MIN_LENGTH) });
+    this.setState({ isDisabled: !(regex.test(gravatarEmail)
+      && name.length >= MIN_LENGTH) });
   }
 
   handleInputsChange = ({ target: { name, value } }) => {
@@ -26,8 +28,10 @@ class Login extends React.Component {
   }
 
   handleClick = () => {
-    const { setTokenDispatch, history } = this.props;
+    const { setTokenDispatch, history, setUser } = this.props;
     setTokenDispatch();
+    const { name, gravatarEmail } = this.state;
+    setUser({ name, gravatarEmail });
     history.push('/home');
   }
 
@@ -37,7 +41,7 @@ class Login extends React.Component {
   }
 
   render() {
-    const { email, isDisabled, name } = this.state;
+    const { gravatarEmail, isDisabled, name } = this.state;
     return (
       <div>
         <h2>Login</h2>
@@ -52,8 +56,8 @@ class Login extends React.Component {
           <input
             data-testid="input-gravatar-email"
             onChange={ this.handleInputsChange }
-            name="email"
-            value={ email }
+            name="gravatarEmail"
+            value={ gravatarEmail }
             type="email"
           />
           <button
@@ -81,6 +85,7 @@ class Login extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
   setTokenDispatch: () => { dispatch(setToken()); },
+  setUser: (user) => { dispatch(action(SET_USER, user)); },
 });
 
 Login.propTypes = {

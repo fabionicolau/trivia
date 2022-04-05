@@ -1,7 +1,7 @@
-import { connect } from 'node-mailjet';
+import { connect } from 'react-redux';
 import React from 'react';
-// import { fetchToken, fetchQuestion } from '../../services/services';
-// import { setToken } from '../../store/actions';
+import propTypes from 'prop-types';
+import { setToken } from '../../store/actions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -26,8 +26,9 @@ class Login extends React.Component {
   }
 
   handleClick = () => {
-    // const { setToken } = this.props;
-    // setToken();
+    const { setTokenDispatch, history } = this.props;
+    setTokenDispatch();
+    history.push('/home');
   }
 
   render() {
@@ -66,7 +67,12 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  // setToken: () => { dispatch(setToken()); },
+  setTokenDispatch: () => { dispatch(setToken()); },
 });
+
+Login.propTypes = {
+  setTokenDispatch: propTypes.func,
+  history: propTypes.shape({ push: propTypes.func }),
+}.isRequired;
 
 export default connect(null, mapDispatchToProps)(Login);

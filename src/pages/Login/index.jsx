@@ -1,6 +1,9 @@
+import { connect } from 'node-mailjet';
 import React from 'react';
+// import { fetchToken, fetchQuestion } from '../../services/services';
+// import { setToken } from '../../store/actions';
 
-export default class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +23,11 @@ export default class Login extends React.Component {
 
   handleInputsChange = ({ target: { name, value } }) => {
     this.setState({ [name]: value }, () => this.validations());
+  }
+
+  handleClick = () => {
+    // const { setToken } = this.props;
+    // setToken();
   }
 
   render() {
@@ -45,7 +53,8 @@ export default class Login extends React.Component {
           <button
             data-testid="btn-play"
             disabled={ isDisabled }
-            type="submit"
+            type="button"
+            onClick={ this.handleClick }
           >
             Play
 
@@ -55,3 +64,9 @@ export default class Login extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  // setToken: () => { dispatch(setToken()); },
+});
+
+export default connect(null, mapDispatchToProps)(Login);

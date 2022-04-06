@@ -28,6 +28,15 @@ class Question extends Component {
     initCounter();
   }
 
+  componentDidUpdate(prevProps) {
+    const { index } = this.props;
+    if (prevProps.index !== index) {
+      this.setState({
+        answers: this.shuffleAnswers(),
+      });
+    }
+  }
+
   shuffleAnswers = () => {
     const { question: { correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers } } = this.props;

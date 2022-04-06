@@ -18,10 +18,10 @@ class CountDown extends React.Component {
     const OneSecond = 1000;
     const ID = setInterval(() => {
       const { timer: { counter, id }, decrement } = this.props;
-      decrement();
       if (!counter) {
         return clearInterval(id);
       }
+      decrement();
     }, OneSecond);
     setIntervalID(ID);
   }

@@ -5,6 +5,7 @@ import {
   SET_INTERVAL_ID,
   SET_QUESTIONS,
   IS_SELECTED_ANSWER,
+  RESET_TIMER,
 } from '../actions/types';
 
 export const initialState = {
@@ -34,8 +35,9 @@ export const game = (state = initialState, { type, payload }) => {
     return { ...state, timer: { ...state.timer, isPlaying: true } };
   case PAUSE_TIMER:
     return { ...state, timer: { ...state.timer, isPlaying: false, id: null } };
+  case RESET_TIMER:
+    return { ...state, timer: { ...state.timer, isPlaying: true, counter: 30, id: null } };
   case DECREMENT:
-    console.log(state.timer);
     return {
       ...state,
       timer: {

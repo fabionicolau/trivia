@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+// import styled from 'styled-components';
 
-const FeedbackContainer = styled.div`
-  background-color: red;
-`;
+// const FeedbackContainer = styled.div`
+//   background-color: red;
+// `;
 
-export default FeedbackContainer;
+// export default FeedbackContainer;
+//

@@ -6,6 +6,9 @@ import { connect } from 'react-redux';
 import { SET_SCORE } from '../store/actions/types';
 import { action } from '../store/actions';
 
+import { action } from '../store/actions';
+import { INIT_COUNTER, PAUSE_TIMER } from '../store/actions/types';
+
 const RANDOM_CHANCE = 0.5;
 
 class Question extends Component {
@@ -18,6 +21,11 @@ class Question extends Component {
     };
   }
 
+  componentDidMount() {
+    const { initCounter } = this.props;
+    initCounter();
+  }
+
   shuffleAnswers = () => {
     const { question: { correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers } } = this.props;
@@ -26,7 +34,11 @@ class Question extends Component {
   }
 
   handleAnswerClick = (answer) => {
-    this.setState({ isSelectedAnswer: true });
+    this.setState({ isSelectedAnswer: true }, () => {
+      const { pauseTimer, timer: { id } } = this.props;
+      clearInterval(id);
+      pauseTimer();
+    });
     const { question, time } = this.props;
     const hard = 3;
     const medium = 2;
@@ -65,14 +77,15 @@ class Question extends Component {
     const { isSelectedAnswer } = this.state;
     const { time } = this.props;
     if ((isSelectedAnswer) || (time === 0)) {
-      if (answer === correct) return 'correct-answer';
-      return 'incorrect-answer';
+      return answer === correct
+        ? 'correct-answer'
+        : 'incorrect-answer';
     }
     return 'answer';
   }
 
   render() {
-    const { question, time } = this.props;
+    const { question, timer } = this.props;
     const { answers } = this.state;
     return (
       <div>
@@ -82,7 +95,7 @@ class Question extends Component {
           {answers.map((answer, index) => (
             <button
               type="button"
-              disabled={ time === 0 }
+              disabled={ timer.time === 0 }
               className={ this.setClassName(answer, question.correct_answer) }
               onClick={ () => this.handleAnswerClick(answer) }
               data-testid={
@@ -100,7 +113,12 @@ class Question extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  time: state.game.time,
+  timer: state.game.timer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  initCounter: () => dispatch(action(INIT_COUNTER)),
+  pauseTimer: () => dispatch(action(PAUSE_TIMER)),
 });
 
 const mapDispatchToProps = (dispatch) => ({

@@ -1,44 +1,51 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import { connect } from 'react-redux';
-import { COUNTDOWN } from '../store/actions/types';
+
 import { action } from '../store/actions';
+import { DECREMENT, SET_INTERVAL_ID } from '../store/actions/types';
 
-class CoutDown extends React.Component {
-  constructor() {
-    super();
-    this.state = { time: 30 };
-  }
-
-  componentDidMount() {
-    const OneSecond = 1000;
-    setInterval(() => this.countDown(), OneSecond);
-  }
-
-  countDown() {
-    const { time } = this.state;
-    const { countDownDispatch } = this.props;
-    if (time > 0) {
-      this.setState(() => ({ time: time - 1 }));
-      countDownDispatch(time - 1);
+class CountDown extends React.Component {
+  componentDidUpdate(prevProps) {
+    const { timer: { isPlaying } } = this.props;
+    if (!prevProps.timer.isPlaying && isPlaying) {
+      this.countDown();
     }
   }
 
+  countDown() {
+    const { setIntervalID } = this.props;
+    const OneSecond = 1000;
+    const ID = setInterval(() => {
+      const { timer: { counter, id }, decrement } = this.props;
+      decrement();
+      if (!counter) {
+        clearInterval(id);
+      }
+    }, OneSecond);
+    setIntervalID(ID);
+  }
+
   render() {
-    const { time } = this.state;
+    const { timer: { counter } } = this.props;
     return (
       <div>
-        <p>{time}</p>
+        <p>{counter}</p>
       </div>);
   }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  countDownDispatch: (count) => { dispatch(action(COUNTDOWN, count)); },
+  setIntervalID: (ID) => { dispatch(action(SET_INTERVAL_ID, ID)); },
+  decrement: () => dispatch(action(DECREMENT)),
 });
 
-CoutDown.propTypes = {
+const mapStateToProps = ({ game }) => ({
+  timer: game.timer,
+});
+
+CountDown.propTypes = {
   countDownDispatch: PropTypes.func,
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(CoutDown);
+export default connect(mapStateToProps, mapDispatchToProps)(CountDown);

@@ -1,11 +1,9 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import propTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { action, setToken } from '../../store/actions';
-import { SET_QUESTIONS, SET_USER } from '../../store/actions/types';
-import { fetchQuestion } from '../../services/services';
-
-const QUESTION_AMOUNT = 5;
+import { SET_USER } from '../../store/actions/types';
 
 class Login extends React.Component {
   constructor(props) {
@@ -15,14 +13,6 @@ class Login extends React.Component {
       gravatarEmail: '',
       isDisabled: true,
     };
-  }
-
-  componentDidMount() {
-    const { token, setQuestions } = this.props;
-    fetchQuestion(QUESTION_AMOUNT, token).then((res) => {
-      const { results } = res;
-      setQuestions(results);
-    });
   }
 
   validations = () => {
@@ -40,11 +30,9 @@ class Login extends React.Component {
 
   handleClick = () => {
     const { setTokenDispatch, history, setUser } = this.props;
-
     setTokenDispatch();
     const { name, gravatarEmail } = this.state;
     setUser({ name, gravatarEmail });
-    history.push('/home');
   }
 
   handleRedirect = () => {
@@ -54,6 +42,11 @@ class Login extends React.Component {
 
   render() {
     const { gravatarEmail, isDisabled, name } = this.state;
+
+    const { token } = this.props;
+
+    if (token) return <Redirect to="/home" />;
+
     return (
       <div>
         <h2>Login</h2>
@@ -96,14 +89,11 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  setTokenDispatch: () => { dispatch(setToken()); },
+  setTokenDispatch: (callback) => { dispatch(setToken(callback)); },
   setUser: (user) => { dispatch(action(SET_USER, user)); },
-  setQuestions: (questions) => { dispatch(action(SET_QUESTIONS, questions)); },
 });
 
-const mapStateToProps = (state) => ({
-  token: state.token,
-});
+const mapStateToProps = (state) => ({ token: state.token });
 
 Login.propTypes = {
   setTokenDispatch: propTypes.func,

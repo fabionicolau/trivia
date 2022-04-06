@@ -2,8 +2,9 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { action } from '../store/actions';
-import { DECREMENT, SET_INTERVAL_ID } from '../store/actions/types';
+import { action } from '../../store/actions';
+import { DECREMENT, SET_INTERVAL_ID } from '../../store/actions/types';
+import * as S from './CountDown';
 
 class CountDown extends React.Component {
   componentDidUpdate(prevProps) {
@@ -29,9 +30,9 @@ class CountDown extends React.Component {
   render() {
     const { timer: { counter } } = this.props;
     return (
-      <div>
-        <p>{counter}</p>
-      </div>);
+      <S.CountDownContainer>
+        <S.TimerParagraph counter={ counter }>{counter}</S.TimerParagraph>
+      </S.CountDownContainer>);
   }
 }
 

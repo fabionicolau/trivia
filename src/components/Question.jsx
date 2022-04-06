@@ -3,11 +3,9 @@ import './Questions.css';
 import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { SET_SCORE } from '../store/actions/types';
-import { action } from '../store/actions';
 
 import { action } from '../store/actions';
-import { INIT_COUNTER, PAUSE_TIMER } from '../store/actions/types';
+import { INIT_COUNTER, PAUSE_TIMER, SET_SCORE } from '../store/actions/types';
 
 const RANDOM_CHANCE = 0.5;
 
@@ -39,7 +37,7 @@ class Question extends Component {
       clearInterval(id);
       pauseTimer();
     });
-    const { question, time } = this.props;
+    const { question, timer: { counter } } = this.props;
     const hard = 3;
     const medium = 2;
     const easy = 1;
@@ -47,18 +45,18 @@ class Question extends Component {
     let points = 0;
     if ((answer === question.correct_answer)) {
       if (question.diffculty === 'hard') {
-        points = ten + (time * hard);
+        points = ten + (counter * hard);
         this.setState((state) => ({
           totalpoints: [...state.totalpoints, points],
         }), () => this.totalScore());
       }
       if (question.diffculty === 'medium') {
-        points = ten + (time * medium);
+        points = ten + (counter * medium);
         this.setState((state) => ({
           totalpoints: [...state.totalpoints, points],
         }), () => this.totalScore());
       }
-      points = ten + (time * easy);
+      points = ten + (counter * easy);
       this.setState((state) => ({
         totalpoints: [...state.totalpoints, points],
       }), () => this.totalScore());
@@ -95,7 +93,7 @@ class Question extends Component {
           {answers.map((answer, index) => (
             <button
               type="button"
-              disabled={ timer.time === 0 }
+              disabled={ timer.counter === 0 }
               className={ this.setClassName(answer, question.correct_answer) }
               onClick={ () => this.handleAnswerClick(answer) }
               data-testid={
@@ -119,9 +117,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   initCounter: () => dispatch(action(INIT_COUNTER)),
   pauseTimer: () => dispatch(action(PAUSE_TIMER)),
-});
-
-const mapDispatchToProps = (dispatch) => ({
   setScore: (score) => { dispatch(action(SET_SCORE, score)); },
 });
 

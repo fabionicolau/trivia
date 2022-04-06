@@ -39,8 +39,12 @@ class Question extends Component {
   }
 
   shuffleAnswers = () => {
-    const { question: { correct_answer: correctAnswer,
-      incorrect_answers: incorrectAnswers } } = this.props;
+    const {
+      question: {
+        correct_answer: correctAnswer,
+        incorrect_answers: incorrectAnswers,
+      },
+    } = this.props;
     const answers = [...incorrectAnswers, correctAnswer];
     return answers.sort(() => Math.random() - RANDOM_CHANCE);
   }

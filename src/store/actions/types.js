@@ -19,3 +19,5 @@ export const PAUSE_TIMER = 'PAUSE_TIMER';
 export const DECREMENT = 'DECREMENT';
 
 export const SET_SCORE = 'SET_SCORE';
+
+export const IS_SELECTED_ANSWER = 'IS_SELECTED_ANSWER';

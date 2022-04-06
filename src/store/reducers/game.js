@@ -4,6 +4,7 @@ import {
   PAUSE_TIMER,
   SET_INTERVAL_ID,
   SET_QUESTIONS,
+  IS_SELECTED_ANSWER,
 } from '../actions/types';
 
 export const initialState = {
@@ -20,6 +21,7 @@ export const initialState = {
     counter: 30,
     id: null,
   },
+  isSelectedAnswer: false,
 };
 
 export const game = (state = initialState, { type, payload }) => {
@@ -40,6 +42,8 @@ export const game = (state = initialState, { type, payload }) => {
         ...state.timer, counter: state.timer.counter - 1,
       },
     };
+  case IS_SELECTED_ANSWER:
+    return { ...state, isSelectedAnswer: payload };
   default:
     return state;
   }

@@ -20,7 +20,7 @@ class CountDown extends React.Component {
       const { timer: { counter, id }, decrement } = this.props;
       decrement();
       if (!counter) {
-        clearInterval(id);
+        return clearInterval(id);
       }
     }, OneSecond);
     setIntervalID(ID);

@@ -1,6 +1,7 @@
 import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import CountDown from '../../components/CountDown';
 
 import Header from '../../components/Header';
 import Question from '../../components/Question';
@@ -33,6 +34,7 @@ class Home extends Component {
         {questions.length > 0 && (
           <Question question={ questions[questionIndex] } />
         )}
+        <CountDown />
       </div>);
   }
 }

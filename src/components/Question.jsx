@@ -5,7 +5,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 import { action } from '../store/actions';
-import { INIT_COUNTER, PAUSE_TIMER, SET_SCORE } from '../store/actions/types';
+import {
+  INIT_COUNTER,
+  PAUSE_TIMER,
+  SET_SCORE,
+  IS_SELECTED_ANSWER,
+} from '../store/actions/types';
 
 const RANDOM_CHANCE = 0.5;
 
@@ -13,7 +18,6 @@ class Question extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isSelectedAnswer: false,
       answers: this.shuffleAnswers(),
       totalpoints: [],
     };
@@ -32,12 +36,15 @@ class Question extends Component {
   }
 
   handleAnswerClick = (answer) => {
-    this.setState({ isSelectedAnswer: true }, () => {
-      const { pauseTimer, timer: { id } } = this.props;
-      clearInterval(id);
-      pauseTimer();
-    });
-    const { question, timer: { counter } } = this.props;
+    const {
+      question,
+      timer: { counter, id },
+      setIsSelectedAnswer,
+      pauseTimer,
+    } = this.props;
+    setIsSelectedAnswer(true);
+    clearInterval(id);
+    pauseTimer();
     const hard = 3;
     const medium = 2;
     const easy = 1;
@@ -72,8 +79,7 @@ class Question extends Component {
   }
 
   setClassName = (answer, correct) => {
-    const { isSelectedAnswer } = this.state;
-    const { time } = this.props;
+    const { time, isSelectedAnswer } = this.props;
     if ((isSelectedAnswer) || (time === 0)) {
       return answer === correct
         ? 'correct-answer'
@@ -112,12 +118,14 @@ class Question extends Component {
 
 const mapStateToProps = (state) => ({
   timer: state.game.timer,
+  isSelectedAnswer: state.game.isSelectedAnswer,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   initCounter: () => dispatch(action(INIT_COUNTER)),
   pauseTimer: () => dispatch(action(PAUSE_TIMER)),
   setScore: (score) => { dispatch(action(SET_SCORE, score)); },
+  setIsSelectedAnswer: (isSelected) => dispatch(action(IS_SELECTED_ANSWER, isSelected)),
 });
 
 Question.propTypes = {

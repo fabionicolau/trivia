@@ -28,6 +28,7 @@ class Home extends Component {
 
   render() {
     const { questions, questionIndex } = this.state;
+    const { isSelectedAnswer } = this.props;
     return (
       <div>
         <Header />
@@ -35,16 +36,30 @@ class Home extends Component {
           <Question question={ questions[questionIndex] } />
         )}
         <CountDown />
+        {isSelectedAnswer
+        && (
+          <button
+            data-testid="btn-next"
+            type="button"
+          // onClick={}
+          >
+            Next
+
+          </button>
+        )}
+
       </div>);
   }
 }
 
 const mapStateToProps = (state) => ({
   token: state.token,
+  isSelectedAnswer: state.game.isSelectedAnswer,
 });
 
 Home.propTypes = {
   token: propTypes.string.isRequired,
+  isSelectedAnswer: propTypes.bool.isRequired,
 };
 
 export default connect(mapStateToProps, null)(Home);

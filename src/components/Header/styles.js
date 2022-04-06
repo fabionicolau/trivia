@@ -17,6 +17,7 @@ export const AvatarImageContainer = styled.img`
 
 export const AvatarInfosContainer = styled.div`
   display: flex;
+  margin-right: 30px;
   flex-direction: column;
   justify-content: center;
 `;

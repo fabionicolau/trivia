@@ -20,7 +20,7 @@ export const FeedbackContainer = styled.div`
 
 export const ButtonsContainer = styled.div`
   display: flex;
-  width: 40%;
+  width: 400px;
   justify-content: space-around;
 `;
 

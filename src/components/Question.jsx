@@ -4,6 +4,9 @@ import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { action } from '../store/actions';
+import { INIT_COUNTER, PAUSE_TIMER } from '../store/actions/types';
+
 const RANDOM_CHANCE = 0.5;
 
 class Question extends Component {
@@ -15,6 +18,11 @@ class Question extends Component {
     };
   }
 
+  componentDidMount() {
+    const { initCounter } = this.props;
+    initCounter();
+  }
+
   shuffleAnswers = () => {
     const { question: { correct_answer: correctAnswer,
       incorrect_answers: incorrectAnswers } } = this.props;
@@ -23,21 +31,26 @@ class Question extends Component {
   }
 
   handleAnswerClick = () => {
-    this.setState({ isSelectedAnswer: true });
+    this.setState({ isSelectedAnswer: true }, () => {
+      const { pauseTimer, timer: { id } } = this.props;
+      clearInterval(id);
+      pauseTimer();
+    });
   }
 
   setClassName = (answer, correct) => {
     const { isSelectedAnswer } = this.state;
     const { time } = this.props;
     if ((isSelectedAnswer) || (time === 0)) {
-      if (answer === correct) return 'correct-answer';
-      return 'incorrect-answer';
+      return answer === correct
+        ? 'correct-answer'
+        : 'incorrect-answer';
     }
     return 'answer';
   }
 
   render() {
-    const { question, time } = this.props;
+    const { question, timer } = this.props;
     const { answers } = this.state;
     return (
       <div>
@@ -47,7 +60,7 @@ class Question extends Component {
           {answers.map((answer, index) => (
             <button
               type="button"
-              disabled={ time === 0 }
+              disabled={ timer.time === 0 }
               className={ this.setClassName(answer, question.correct_answer) }
               onClick={ this.handleAnswerClick }
               data-testid={
@@ -65,7 +78,12 @@ class Question extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  time: state.game.time,
+  timer: state.game.timer,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  initCounter: () => dispatch(action(INIT_COUNTER)),
+  pauseTimer: () => dispatch(action(PAUSE_TIMER)),
 });
 
 Question.propTypes = {
@@ -73,4 +91,4 @@ Question.propTypes = {
   time: propTypes.number,
 }.isRequired;
 
-export default connect(mapStateToProps)(Question);
+export default connect(mapStateToProps, mapDispatchToProps)(Question);

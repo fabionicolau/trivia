@@ -11,10 +11,14 @@ class Feedback extends React.Component {
   }
 
   render() {
+    const { score, assertions } = this.props;
+
     return (
       <>
         <Header />
         <h1 data-testid="feedback-text">{this.changeMessage()}</h1>
+        <span data-testid="feedback-total-score">{score}</span>
+        <span data-testid="feedback-total-question">{assertions}</span>
       </>
     );
   }
@@ -22,6 +26,7 @@ class Feedback extends React.Component {
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
+  score: state.player.score,
 });
 
 Feedback.propTypes = {

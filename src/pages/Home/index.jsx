@@ -1,5 +1,7 @@
+import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import Header from '../../components/Header';
 import Question from '../../components/Question';
 import { fetchQuestion } from '../../services/services';
@@ -17,7 +19,6 @@ class Home extends Component {
 
   componentDidMount() {
     const { token } = this.props;
-    console.log(token);
     fetchQuestion(QUESTION_AMOUNT, token).then((res) => {
       const { results } = res;
       this.setState({ questions: results });
@@ -29,7 +30,9 @@ class Home extends Component {
     return (
       <div>
         <Header />
-        <Question question={ questions[questionIndex] } />
+        {questions.length > 0 && (
+          <Question question={ questions[questionIndex] } />
+        )}
       </div>);
   }
 }
@@ -37,5 +40,9 @@ class Home extends Component {
 const mapStateToProps = (state) => ({
   token: state.token,
 });
+
+Home.propTypes = {
+  token: propTypes.string.isRequired,
+};
 
 export default connect(mapStateToProps, null)(Home);

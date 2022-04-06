@@ -1,7 +1,8 @@
-import { connect } from 'react-redux';
-import React from 'react';
 import propTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+
 import { action, setToken } from '../../store/actions';
 import { SET_USER } from '../../store/actions/types';
 
@@ -29,7 +30,7 @@ class Login extends React.Component {
   }
 
   handleClick = () => {
-    const { setTokenDispatch, history, setUser } = this.props;
+    const { setTokenDispatch, setUser } = this.props;
     setTokenDispatch();
     const { name, gravatarEmail } = this.state;
     setUser({ name, gravatarEmail });

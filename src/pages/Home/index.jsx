@@ -1,8 +1,10 @@
 import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 import CountDown from '../../components/CountDown';
-
+import { IS_SELECTED_ANSWER, RESET_TIMER } from '../../store/actions/types';
+import { action } from '../../store/actions/index';
 import Header from '../../components/Header';
 import Question from '../../components/Question';
 import { fetchQuestion } from '../../services/services';
@@ -26,14 +28,24 @@ class Home extends Component {
     });
   }
 
+  handleClickNext = () => {
+    const { setIsSelectedAnswer, resetTimer } = this.props;
+    setIsSelectedAnswer(false);
+    this.setState((prev) => ({
+      questionIndex: prev.questionIndex + 1,
+    }), resetTimer);
+  }
+
   render() {
     const { questions, questionIndex } = this.state;
     const { isSelectedAnswer } = this.props;
+
+    if (questionIndex >= QUESTION_AMOUNT) return <Redirect to="/feedback" />;
     return (
       <div>
         <Header />
         {questions.length > 0 && (
-          <Question question={ questions[questionIndex] } />
+          <Question index={ questionIndex } question={ questions[questionIndex] } />
         )}
         <CountDown />
         {isSelectedAnswer
@@ -41,7 +53,7 @@ class Home extends Component {
           <button
             data-testid="btn-next"
             type="button"
-          // onClick={}
+            onClick={ this.handleClickNext }
           >
             Next
 
@@ -57,9 +69,15 @@ const mapStateToProps = (state) => ({
   isSelectedAnswer: state.game.isSelectedAnswer,
 });
 
-Home.propTypes = {
-  token: propTypes.string.isRequired,
-  isSelectedAnswer: propTypes.bool.isRequired,
-};
+const mapDispatchToProps = (dispatch) => ({
+  setIsSelectedAnswer: (isSelected) => dispatch(action(IS_SELECTED_ANSWER, isSelected)),
+  resetTimer: () => dispatch(action(RESET_TIMER)),
+});
 
-export default connect(mapStateToProps, null)(Home);
+Home.propTypes = {
+  token: propTypes.string,
+  isSelectedAnswer: propTypes.bool,
+  setIsSelectedAnswer: propTypes.func,
+}.isRequired;
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

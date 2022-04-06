@@ -2,10 +2,11 @@ import './Questions.css';
 
 import propTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
 const RANDOM_CHANCE = 0.5;
 
-export default class Question extends Component {
+class Question extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -27,7 +28,8 @@ export default class Question extends Component {
 
   setClassName = (answer, correct) => {
     const { isSelectedAnswer } = this.state;
-    if (isSelectedAnswer) {
+    const { time } = this.props;
+    if ((isSelectedAnswer) || (time === 0)) {
       if (answer === correct) return 'correct-answer';
       return 'incorrect-answer';
     }
@@ -35,10 +37,8 @@ export default class Question extends Component {
   }
 
   render() {
-    const { question } = this.props;
-
+    const { question, time } = this.props;
     const { answers } = this.state;
-
     return (
       <div>
         <p data-testid="question-category">{ question.category }</p>
@@ -47,6 +47,7 @@ export default class Question extends Component {
           {answers.map((answer, index) => (
             <button
               type="button"
+              disabled={ time === 0 }
               className={ this.setClassName(answer, question.correct_answer) }
               onClick={ this.handleAnswerClick }
               data-testid={
@@ -63,6 +64,13 @@ export default class Question extends Component {
   }
 }
 
+const mapStateToProps = (state) => ({
+  time: state.game.time,
+});
+
 Question.propTypes = {
   question: propTypes.objectOf(propTypes.any),
+  time: propTypes.number,
 }.isRequired;
+
+export default connect(mapStateToProps)(Question);

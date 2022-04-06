@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import Home from '../Home';
 import Settings from '../Settings';
 import Feedback from '../Feedback';
+import Ranking from '../Ranking';
 
 import Login from '../Login';
 
@@ -14,6 +15,7 @@ export default function AppRoutes() {
         <Route exact path="/home" component={ Home } />
         <Route exact path="/settings" component={ Settings } />
         <Route exact path="/feedback" component={ Feedback } />
+        <Route exact path="/ranking" component={ Ranking } />
       </Switch>
     </BrowserRouter>
   );

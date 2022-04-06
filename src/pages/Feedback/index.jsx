@@ -3,9 +3,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Header from '../../components/Header';
+import { saveRaking } from '../../helpers/localStorage';
 import { action } from '../../store/actions';
 import { SET_TOKEN } from '../../store/actions/types';
-import { saveRaking } from '../../helpers/localStorage';
+import * as S from './styles';
 
 class Feedback extends React.Component {
   componentDidMount() {
@@ -35,7 +36,7 @@ class Feedback extends React.Component {
     const { score, assertions } = this.props;
 
     return (
-      <>
+      <S.FeedbackContainer>
         <Header />
         <h1 data-testid="feedback-text">{this.changeMessage()}</h1>
         <p data-testid="feedback-total-score">{score}</p>
@@ -55,7 +56,7 @@ class Feedback extends React.Component {
           Ranking
 
         </button>
-      </>
+      </S.FeedbackContainer>
     );
   }
 }

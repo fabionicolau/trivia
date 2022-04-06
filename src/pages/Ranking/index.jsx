@@ -1,10 +1,12 @@
-import React, { Component } from 'react';
-import propTypes from 'prop-types';
-import { connect } from 'react-redux';
 import md5 from 'crypto-js/md5';
-import { SET_TOKEN } from '../../store/actions/types';
-import { action } from '../../store/actions';
+import propTypes from 'prop-types';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import { getRanking } from '../../helpers/localStorage';
+import { action } from '../../store/actions';
+import { SET_TOKEN } from '../../store/actions/types';
+import * as S from './styles';
 
 class Ranking extends Component {
   constructor() {
@@ -25,8 +27,8 @@ class Ranking extends Component {
   render() {
     const { ranking } = this.state;
     return (
-      <div>
-        <h1 data-testid="ranking-title">Ranking</h1>
+      <S.RankingContainer>
+        <S.RankingTitle data-testid="ranking-title">Ranking</S.RankingTitle>
         <ul>
           { ranking.map((rank, index) => (
             <li key={ index }>
@@ -43,7 +45,7 @@ class Ranking extends Component {
         >
           Voltar à tela inicial
         </button>
-      </div>
+      </S.RankingContainer>
     );
   }
 }

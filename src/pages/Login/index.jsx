@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import { action, setToken } from '../../store/actions';
-import { SET_USER, SET_TOKEN, RESET_PLAYER } from '../../store/actions/types';
+import { RESET_PLAYER, SET_TOKEN, SET_USER } from '../../store/actions/types';
+import * as S from './styles';
 
 class Login extends React.Component {
   constructor(props) {
@@ -54,9 +55,9 @@ class Login extends React.Component {
     if (token) return <Redirect to="/home" />;
 
     return (
-      <div>
+      <S.LoginContainer>
         <h2>Login</h2>
-        <form>
+        <S.LoginForm>
           <input
             data-testid="input-player-name"
             onChange={ this.handleInputsChange }
@@ -71,15 +72,14 @@ class Login extends React.Component {
             value={ gravatarEmail }
             type="email"
           />
-          <button
+          <S.LoginButton
             data-testid="btn-play"
             disabled={ isDisabled }
             type="button"
             onClick={ this.handleClick }
           >
             Play
-
-          </button>
+          </S.LoginButton>
           <button
             data-testid="btn-settings"
             type="button"
@@ -88,8 +88,8 @@ class Login extends React.Component {
             Configurações
 
           </button>
-        </form>
-      </div>
+        </S.LoginForm>
+      </S.LoginContainer>
     );
   }
 }

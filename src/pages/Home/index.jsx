@@ -9,6 +9,7 @@ import Question from '../../components/Question';
 import { fetchQuestion } from '../../services/services';
 import { action } from '../../store/actions';
 import { IS_SELECTED_ANSWER, RESET_TIMER } from '../../store/actions/types';
+import * as S from '../Login/styles';
 
 const QUESTION_AMOUNT = 5;
 class Home extends Component {
@@ -50,14 +51,14 @@ class Home extends Component {
         <CountDown />
         {isSelectedAnswer
         && (
-          <button
+          <S.LoginButton
             data-testid="btn-next"
             type="button"
             onClick={ this.handleClickNext }
           >
             Next
 
-          </button>
+          </S.LoginButton>
         )}
 
       </div>);

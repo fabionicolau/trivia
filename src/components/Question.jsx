@@ -6,11 +6,11 @@ import { connect } from 'react-redux';
 
 import { action } from '../store/actions';
 import {
+  ASSERTIONS,
   INIT_COUNTER,
+  IS_SELECTED_ANSWER,
   PAUSE_TIMER,
   SET_SCORE,
-  IS_SELECTED_ANSWER,
-  ASSERTIONS,
 } from '../store/actions/types';
 
 const RANDOM_CHANCE = 0.5;
@@ -60,20 +60,26 @@ class Question extends Component {
     const easy = 1;
     const ten = 10;
     let points = 0;
+
     if ((answer === question.correct_answer)) {
-      if (question.diffculty === 'hard') {
+      if (question.difficulty === 'hard') {
+        console.log('hard');
         points = ten + (counter * hard);
         this.setState((state) => ({
           totalpoints: [...state.totalpoints, points],
         }), () => this.totalScore());
+        return;
       }
-      if (question.diffculty === 'medium') {
+      if (question.difficulty === 'medium') {
+        console.log('medium');
         points = ten + (counter * medium);
         this.setState((state) => ({
           totalpoints: [...state.totalpoints, points],
         }), () => this.totalScore());
+        return;
       }
       points = ten + (counter * easy);
+      console.log('easy');
       this.setState((state) => ({
         totalpoints: [...state.totalpoints, points],
       }), () => this.totalScore());

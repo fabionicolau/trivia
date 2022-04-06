@@ -8,6 +8,7 @@ export const action = (type, payload) => ({
 
 export const setToken = () => async (dispatch) => {
   dispatch(action(LOADING));
+
   try {
     const token = await fetchToken();
     if (!token) throw new Error('Erro Token');

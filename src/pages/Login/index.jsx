@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import React from 'react';
 import propTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { action, setToken } from '../../store/actions';
 import { SET_USER } from '../../store/actions/types';
 
@@ -32,7 +33,6 @@ class Login extends React.Component {
     setTokenDispatch();
     const { name, gravatarEmail } = this.state;
     setUser({ name, gravatarEmail });
-    history.push('/home');
   }
 
   handleRedirect = () => {
@@ -42,6 +42,11 @@ class Login extends React.Component {
 
   render() {
     const { gravatarEmail, isDisabled, name } = this.state;
+
+    const { token } = this.props;
+
+    if (token) return <Redirect to="/home" />;
+
     return (
       <div>
         <h2>Login</h2>
@@ -84,13 +89,15 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  setTokenDispatch: () => { dispatch(setToken()); },
+  setTokenDispatch: (callback) => { dispatch(setToken(callback)); },
   setUser: (user) => { dispatch(action(SET_USER, user)); },
 });
+
+const mapStateToProps = (state) => ({ token: state.token });
 
 Login.propTypes = {
   setTokenDispatch: propTypes.func,
   history: propTypes.shape({ push: propTypes.func }),
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

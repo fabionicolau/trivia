@@ -6,6 +6,7 @@ import { Redirect } from 'react-router-dom';
 import { action, setToken } from '../../store/actions';
 import { RESET_PLAYER, SET_TOKEN, SET_USER } from '../../store/actions/types';
 import * as S from './styles';
+import image from '../../image/drac.png';
 
 class Login extends React.Component {
   constructor(props) {
@@ -56,39 +57,53 @@ class Login extends React.Component {
 
     return (
       <S.LoginContainer>
-        <h2>Login</h2>
-        <S.LoginForm>
-          <input
-            data-testid="input-player-name"
-            onChange={ this.handleInputsChange }
-            name="name"
-            value={ name }
-            type="text"
-          />
-          <input
-            data-testid="input-gravatar-email"
-            onChange={ this.handleInputsChange }
-            name="gravatarEmail"
-            value={ gravatarEmail }
-            type="email"
-          />
-          <S.LoginButton
-            data-testid="btn-play"
-            disabled={ isDisabled }
-            type="button"
-            onClick={ this.handleClick }
-          >
-            Play
-          </S.LoginButton>
-          <button
-            data-testid="btn-settings"
-            type="button"
-            onClick={ this.handleRedirect }
-          >
-            Configurações
+        <S.BoxContainer>
+          <img src={ image } alt="Minha Figura" />
+          <h2>DracQuestions</h2>
+          <S.LoginForm>
+            <S.InputContainer>
+              <label htmlFor="name">
+                {' '}
+                Name:
+                <input
+                  data-testid="input-player-name"
+                  onChange={ this.handleInputsChange }
+                  name="name"
+                  value={ name }
+                  type="text"
+                />
+              </label>
+              <label htmlFor="gravatarEmail">
+                Email:
+                <input
+                  data-testid="input-gravatar-email"
+                  onChange={ this.handleInputsChange }
+                  name="gravatarEmail"
+                  value={ gravatarEmail }
+                  type="email"
+                />
+              </label>
+            </S.InputContainer>
+            <S.ButtonsContainer>
+              <S.LoginButton
+                data-testid="btn-play"
+                disabled={ isDisabled }
+                type="button"
+                onClick={ this.handleClick }
+              >
+                Play
+              </S.LoginButton>
+              <S.LoginButton
+                data-testid="btn-settings"
+                type="button"
+                onClick={ this.handleRedirect }
+              >
+                Configurações
 
-          </button>
-        </S.LoginForm>
+              </S.LoginButton>
+            </S.ButtonsContainer>
+          </S.LoginForm>
+        </S.BoxContainer>
       </S.LoginContainer>
     );
   }

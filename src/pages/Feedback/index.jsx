@@ -5,8 +5,14 @@ import { connect } from 'react-redux';
 import Header from '../../components/Header';
 import { action } from '../../store/actions';
 import { SET_TOKEN } from '../../store/actions/types';
+import { saveRaking } from '../../helpers/localStorage';
 
 class Feedback extends React.Component {
+  componentDidMount() {
+    const { player: { name, score, gravatarEmail } } = this.props;
+    saveRaking({ name, score, picture: gravatarEmail });
+  }
+
   changeMessage =() => {
     const { assertions } = this.props;
     const THREE = 3;
@@ -57,6 +63,7 @@ class Feedback extends React.Component {
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
   score: state.player.score,
+  player: state.player,
 });
 
 const mapDispatchToProps = (dispatch) => ({

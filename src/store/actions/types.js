@@ -25,3 +25,5 @@ export const IS_SELECTED_ANSWER = 'IS_SELECTED_ANSWER';
 export const RESET_TIMER = 'RESET_TIMER';
 
 export const ASSERTIONS = 'ASSERTIONS';
+
+export const RESET_PLAYER = 'RESET_PLAYER';

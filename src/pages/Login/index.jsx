@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 
 import { action, setToken } from '../../store/actions';
-import { SET_USER, SET_TOKEN } from '../../store/actions/types';
+import { SET_USER, SET_TOKEN, RESET_PLAYER } from '../../store/actions/types';
 
 class Login extends React.Component {
   constructor(props) {
@@ -17,8 +17,8 @@ class Login extends React.Component {
   }
 
   componentDidMount() {
-    const { resetToken } = this.props;
-    resetToken();
+    const { resetPlayer } = this.props;
+    resetPlayer();
   }
 
   validations = () => {
@@ -98,6 +98,7 @@ const mapDispatchToProps = (dispatch) => ({
   setTokenDispatch: (callback) => { dispatch(setToken(callback)); },
   setUser: (user) => { dispatch(action(SET_USER, user)); },
   resetToken: () => dispatch(action(SET_TOKEN, '')),
+  resetPlayer: () => dispatch(action(RESET_PLAYER)),
 });
 
 const mapStateToProps = (state) => ({ token: state.token });

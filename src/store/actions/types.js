@@ -11,3 +11,5 @@ export const SET_USER = 'SET_USER';
 export const SET_QUESTIONS = 'SET_QUESTIONS';
 
 export const COUNTDOWN = 'COUNTDOWN';
+
+export const SET_SCORE = 'SET_SCORE';

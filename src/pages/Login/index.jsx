@@ -2,7 +2,10 @@ import { connect } from 'react-redux';
 import React from 'react';
 import propTypes from 'prop-types';
 import { action, setToken } from '../../store/actions';
-import { SET_USER } from '../../store/actions/types';
+import { SET_QUESTIONS, SET_USER } from '../../store/actions/types';
+import { fetchQuestion } from '../../services/services';
+
+const QUESTION_AMOUNT = 5;
 
 class Login extends React.Component {
   constructor(props) {
@@ -12,6 +15,14 @@ class Login extends React.Component {
       gravatarEmail: '',
       isDisabled: true,
     };
+  }
+
+  componentDidMount() {
+    const { token, setQuestions } = this.props;
+    fetchQuestion(QUESTION_AMOUNT, token).then((res) => {
+      const { results } = res;
+      setQuestions(results);
+    });
   }
 
   validations = () => {
@@ -29,6 +40,7 @@ class Login extends React.Component {
 
   handleClick = () => {
     const { setTokenDispatch, history, setUser } = this.props;
+
     setTokenDispatch();
     const { name, gravatarEmail } = this.state;
     setUser({ name, gravatarEmail });
@@ -86,6 +98,11 @@ class Login extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   setTokenDispatch: () => { dispatch(setToken()); },
   setUser: (user) => { dispatch(action(SET_USER, user)); },
+  setQuestions: (questions) => { dispatch(action(SET_QUESTIONS, questions)); },
+});
+
+const mapStateToProps = (state) => ({
+  token: state.token,
 });
 
 Login.propTypes = {
@@ -93,4 +110,4 @@ Login.propTypes = {
   history: propTypes.shape({ push: propTypes.func }),
 }.isRequired;
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

@@ -36,7 +36,7 @@ export const game = (state = initialState, { type, payload }) => {
   case PAUSE_TIMER:
     return { ...state, timer: { ...state.timer, isPlaying: false, id: null } };
   case RESET_TIMER:
-    return { ...state, timer: { ...state.timer, isPlaying: true, counter: 30, id: null } };
+    return { ...state, timer: { ...state.timer, isPlaying: true, counter: 30 } };
   case DECREMENT:
     return {
       ...state,

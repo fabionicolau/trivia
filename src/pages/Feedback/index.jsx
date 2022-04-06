@@ -36,28 +36,39 @@ class Feedback extends React.Component {
     const { score, assertions } = this.props;
 
     return (
-      <S.FeedbackContainer>
+      <S.Body>
         <Header />
-        <h1 data-testid="feedback-text">{this.changeMessage()}</h1>
-        <p data-testid="feedback-total-score">{score}</p>
-        <p data-testid="feedback-total-question">{assertions}</p>
-        <button
-          data-testid="btn-play-again"
-          type="button"
-          onClick={ this.playAgain }
-        >
-          Play Again
-        </button>
-        <button
-          onClick={ this.ranking }
-          type="button"
-          data-testid="btn-ranking"
-        >
-          Ranking
+        <S.FeedbackContainer>
+          <h1 data-testid="feedback-text">{this.changeMessage()}</h1>
+          <p data-testid="feedback-total-score">
+            Score:
+            {' '}
+            {score}
+          </p>
+          <p data-testid="feedback-total-question">
+            Assertions:
+            {' '}
+            {assertions}
+          </p>
+          <S.ButtonsContainer>
+            <S.Button
+              data-testid="btn-play-again"
+              type="button"
+              onClick={ this.playAgain }
+            >
+              Play Again
+            </S.Button>
+            <S.Button
+              onClick={ this.ranking }
+              type="button"
+              data-testid="btn-ranking"
+            >
+              Ranking
 
-        </button>
-      </S.FeedbackContainer>
-    );
+            </S.Button>
+          </S.ButtonsContainer>
+        </S.FeedbackContainer>
+      </S.Body>);
   }
 }
 

@@ -1,4 +1,4 @@
-import { SET_USER, SET_SCORE } from '../actions/types';
+import { SET_USER, SET_SCORE, ASSERTIONS } from '../actions/types';
 
 const initialState = {
   name: '',
@@ -18,6 +18,11 @@ function player(state = initialState, { type, payload }) {
     return {
       ...state,
       score: payload,
+    };
+  case ASSERTIONS:
+    return {
+      ...state,
+      assertions: payload,
     };
   default:
     return state;

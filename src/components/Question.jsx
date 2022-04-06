@@ -10,6 +10,7 @@ import {
   PAUSE_TIMER,
   SET_SCORE,
   IS_SELECTED_ANSWER,
+  ASSERTIONS,
 } from '../store/actions/types';
 
 const RANDOM_CHANCE = 0.5;
@@ -80,11 +81,12 @@ class Question extends Component {
   }
 
   totalScore = () => {
-    const { setScore } = this.props;
+    const { setScore, assertions } = this.props;
     const { totalpoints } = this.state;
     let sumPoints = 0;
     sumPoints = totalpoints.reduce((acc, value) => acc + value);
     setScore(sumPoints);
+    assertions(totalpoints.length);
   }
 
   setClassName = (answer, correct) => {
@@ -135,6 +137,7 @@ const mapDispatchToProps = (dispatch) => ({
   pauseTimer: () => dispatch(action(PAUSE_TIMER)),
   setScore: (score) => { dispatch(action(SET_SCORE, score)); },
   setIsSelectedAnswer: (isSelected) => dispatch(action(IS_SELECTED_ANSWER, isSelected)),
+  assertions: (value) => dispatch(action(ASSERTIONS, value)),
 });
 
 Question.propTypes = {

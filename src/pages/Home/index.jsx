@@ -2,15 +2,15 @@ import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+
 import CountDown from '../../components/CountDown';
-import { IS_SELECTED_ANSWER, RESET_TIMER } from '../../store/actions/types';
-import { action } from '../../store/actions/index';
 import Header from '../../components/Header';
 import Question from '../../components/Question';
 import { fetchQuestion } from '../../services/services';
+import { action } from '../../store/actions';
+import { IS_SELECTED_ANSWER, RESET_TIMER } from '../../store/actions/types';
 
 const QUESTION_AMOUNT = 5;
-
 class Home extends Component {
   constructor() {
     super();

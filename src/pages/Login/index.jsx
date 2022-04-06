@@ -47,6 +47,7 @@ class Login extends React.Component {
     const { token } = this.props;
 
     if (token) return <Redirect to="/home" />;
+
     return (
       <div>
         <h2>Login</h2>

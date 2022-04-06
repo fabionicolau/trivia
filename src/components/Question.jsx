@@ -3,6 +3,8 @@ import './Questions.css';
 import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { SET_SCORE } from '../store/actions/types';
+import { action } from '../store/actions';
 
 import { action } from '../store/actions';
 import { INIT_COUNTER, PAUSE_TIMER } from '../store/actions/types';
@@ -15,6 +17,7 @@ class Question extends Component {
     this.state = {
       isSelectedAnswer: false,
       answers: this.shuffleAnswers(),
+      totalpoints: [],
     };
   }
 
@@ -30,12 +33,44 @@ class Question extends Component {
     return answers.sort(() => Math.random() - RANDOM_CHANCE);
   }
 
-  handleAnswerClick = () => {
+  handleAnswerClick = (answer) => {
     this.setState({ isSelectedAnswer: true }, () => {
       const { pauseTimer, timer: { id } } = this.props;
       clearInterval(id);
       pauseTimer();
     });
+    const { question, time } = this.props;
+    const hard = 3;
+    const medium = 2;
+    const easy = 1;
+    const ten = 10;
+    let points = 0;
+    if ((answer === question.correct_answer)) {
+      if (question.diffculty === 'hard') {
+        points = ten + (time * hard);
+        this.setState((state) => ({
+          totalpoints: [...state.totalpoints, points],
+        }), () => this.totalScore());
+      }
+      if (question.diffculty === 'medium') {
+        points = ten + (time * medium);
+        this.setState((state) => ({
+          totalpoints: [...state.totalpoints, points],
+        }), () => this.totalScore());
+      }
+      points = ten + (time * easy);
+      this.setState((state) => ({
+        totalpoints: [...state.totalpoints, points],
+      }), () => this.totalScore());
+    }
+  }
+
+  totalScore = () => {
+    const { setScore } = this.props;
+    const { totalpoints } = this.state;
+    let sumPoints = 0;
+    sumPoints = totalpoints.reduce((acc, value) => acc + value);
+    setScore(sumPoints);
   }
 
   setClassName = (answer, correct) => {
@@ -62,7 +97,7 @@ class Question extends Component {
               type="button"
               disabled={ timer.time === 0 }
               className={ this.setClassName(answer, question.correct_answer) }
-              onClick={ this.handleAnswerClick }
+              onClick={ () => this.handleAnswerClick(answer) }
               data-testid={
                 answer === question.correct_answer
                   ? 'correct-answer' : `wrong-answer-${index}`
@@ -84,6 +119,10 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   initCounter: () => dispatch(action(INIT_COUNTER)),
   pauseTimer: () => dispatch(action(PAUSE_TIMER)),
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  setScore: (score) => { dispatch(action(SET_SCORE, score)); },
 });
 
 Question.propTypes = {

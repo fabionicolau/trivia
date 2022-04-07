@@ -1,17 +1,16 @@
-import './Questions.css';
-
 import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { action } from '../store/actions';
+import { action } from '../../store/actions';
 import {
   ASSERTIONS,
   INIT_COUNTER,
   IS_SELECTED_ANSWER,
   PAUSE_TIMER,
   SET_SCORE,
-} from '../store/actions/types';
+} from '../../store/actions/types';
+import * as S from './QuestionStyle';
 
 const RANDOM_CHANCE = 0.5;
 
@@ -113,12 +112,22 @@ class Question extends Component {
     const { question, timer } = this.props;
     const { answers } = this.state;
     return (
-      <div>
-        <p data-testid="question-category">{ question.category }</p>
-        <p data-testid="question-text">{ question.question }</p>
+      <S.QuestionContainer>
+        <S.QuestionsText
+          data-testid="question-category"
+        >
+          { question.category }
+
+        </S.QuestionsText>
+        <S.QuestionsText
+          data-testid="question-text"
+        >
+          { question.question }
+
+        </S.QuestionsText>
         <div data-testid="answer-options">
           {answers.map((answer, index) => (
-            <button
+            <S.ButtonAnswers
               type="button"
               disabled={ timer.counter === 0 }
               className={ this.setClassName(answer, question.correct_answer) }
@@ -130,9 +139,9 @@ class Question extends Component {
               key={ index }
             >
               {answer}
-            </button>))}
+            </S.ButtonAnswers>))}
         </div>
-      </div>
+      </S.QuestionContainer>
     );
   }
 }

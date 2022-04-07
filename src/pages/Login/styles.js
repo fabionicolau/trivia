@@ -10,17 +10,20 @@ export const LoginContainer = styled.div`
 
 export const BoxContainer = styled.div`
   width: 400px;
-  height: 550px;
+  height: 600px;
   background-color: ${(props) => props.theme.secondary};
   display: flex;
   margin-top: 50px;
   border-radius: 5px;
-  box-shadow: 10px 5px 5px black;
+  box-shadow: 10px 5px 5px rgba(0, 0, 0, 0.3);
   align-items: center;
   flex-direction: column;
   color: ${(props) => props.theme.background};
   img{
     margin-top: 30px;
+  }
+  h2 {
+    margin: 15px auto;
   }
 `;
 
@@ -66,5 +69,22 @@ export const LoginButton = styled.button`
     background-color: ${(props) => props.theme.colors.pink};
     color: ${(props) => props.theme.background};
     font-weight: bold;
+  }
+`;
+
+export const Label = styled.label`
+  color: ${({ theme }) => theme.colors.purple};
+  font-weight: 500;
+`;
+
+export const Input = styled.input`
+  width: 80%;
+  padding: 10px;
+  margin: auto;
+  background-color: ${({ theme }) => theme.background};
+  color: ${({ theme }) => theme.text};
+
+  &:focus {
+    outline: 1px solid ${({ theme }) => theme.colors.pink};
   }
 `;

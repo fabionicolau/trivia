@@ -62,27 +62,27 @@ class Login extends React.Component {
           <h2>DracQuestions</h2>
           <S.LoginForm>
             <S.InputContainer>
-              <label htmlFor="name">
+              <S.Label htmlFor="name">
                 {' '}
                 Name:
-                <input
-                  data-testid="input-player-name"
-                  onChange={ this.handleInputsChange }
-                  name="name"
-                  value={ name }
-                  type="text"
-                />
-              </label>
-              <label htmlFor="gravatarEmail">
+              </S.Label>
+              <S.Input
+                data-testid="input-player-name"
+                onChange={ this.handleInputsChange }
+                name="name"
+                value={ name }
+                type="text"
+              />
+              <S.Label htmlFor="gravatarEmail">
                 Email:
-                <input
-                  data-testid="input-gravatar-email"
-                  onChange={ this.handleInputsChange }
-                  name="gravatarEmail"
-                  value={ gravatarEmail }
-                  type="email"
-                />
-              </label>
+              </S.Label>
+              <S.Input
+                data-testid="input-gravatar-email"
+                onChange={ this.handleInputsChange }
+                name="gravatarEmail"
+                value={ gravatarEmail }
+                type="email"
+              />
             </S.InputContainer>
             <S.ButtonsContainer>
               <S.LoginButton

@@ -18,4 +18,4 @@
 </ul>
 
 <h1>Nota</h1>
-<img src="./Trivia.png" alt="nota do projeto" width='800' height='450'>
+<img src="./Trivia.png" alt="nota do projeto" width='800' height='500'>
